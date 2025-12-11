@@ -1,74 +1,150 @@
 {% extends 'base.html' %}
 
-{% block title %}Health Status{% endblock %}
+{% block title %}Health Status - {{ app_name }}{% endblock %}
 
 {% block content %}
-<div class="container mx-auto px-6 py-12">
-    <div class="max-w-4xl mx-auto">
+<div class="container mx-auto px-4 py-12">
+    <div class="max-w-6xl mx-auto">
         <div class="text-center mb-12">
             <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">
-                Health <span class="gradient-text">Monitoring</span>
+                System <span class="gradient-text">Health Monitor</span>
             </h1>
-            <p class="text-gray-200 text-xl">Real-time system health and performance metrics</p>
+            <p class="text-gray-300 text-xl">Real-time system health and performance metrics</p>
         </div>
 
-        <!-- Health Status Card -->
+        <!-- Status Overview -->
         <div class="glass-card rounded-2xl p-8 mb-8">
-            <div class="flex items-center justify-between mb-6">
-                <h2 class="text-2xl font-bold text-white">Service Status</h2>
-                <div class="flex items-center">
-                    <div class="w-3 h-3 bg-green-500 rounded-full mr-2 pulse"></div>
-                    <span class="text-green-400 font-semibold">{{ status|upper }}</span>
+            <div class="flex flex-col md:flex-row md:items-center justify-between mb-8">
+                <div>
+                    <h2 class="text-2xl font-bold text-white">Service Status</h2>
+                    <p class="text-gray-400">Last updated: {{ timestamp|date:"Y-m-d H:i:s" }}</p>
+                </div>
+                
+                <div class="flex items-center mt-4 md:mt-0">
+                    <div class="w-4 h-4 bg-green-500 rounded-full mr-3 pulse"></div>
+                    <span class="text-2xl font-bold text-green-400">{{ status|upper }}</span>
+                    <div class="ml-4 px-4 py-2 bg-green-500/20 rounded-lg">
+                        <span class="text-green-400 font-semibold">All Systems Operational</span>
+                    </div>
                 </div>
             </div>
             
-            <div class="grid md:grid-cols-2 gap-6">
-                <div class="bg-gray-800 p-6 rounded-xl">
-                    <h3 class="text-lg font-semibold text-white mb-4">Service Information</h3>
-                    <div class="space-y-3">
-                        <div class="flex justify-between">
-                            <span class="text-gray-400">Service Name</span>
-                            <span class="text-white font-medium">simple-django-app</span>
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Service Information -->
+                <div class="bg-gray-900/50 p-6 rounded-2xl">
+                    <h3 class="text-xl font-semibold text-white mb-6 flex items-center">
+                        <i data-feather="info" class="mr-3"></i>
+                        Service Information
+                    </h3>
+                    
+                    <div class="space-y-5">
+                        <div class="flex justify-between items-center pb-4 border-b border-gray-800">
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center mr-4">
+                                    <i data-feather="box" class="text-blue-400"></i>
+                                </div>
+                                <div>
+                                    <p class="text-gray-400 text-sm">Service Name</p>
+                                    <p class="text-white font-medium">simple-django-app</p>
+                                </div>
+                            </div>
                         </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-400">Version</span>
-                            <span class="text-white font-medium">2.0.0</span>
+                        
+                        <div class="flex justify-between items-center pb-4 border-b border-gray-800">
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 rounded-lg bg-purple-500/20 flex items-center justify-center mr-4">
+                                    <i data-feather="tag" class="text-purple-400"></i>
+                                </div>
+                                <div>
+                                    <p class="text-gray-400 text-sm">Version</p>
+                                    <p class="text-white font-medium">{{ app_version }}</p>
+                                </div>
+                            </div>
                         </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-400">Last Check</span>
-                            <span class="text-white font-medium">{{ timestamp|date:"Y-m-d H:i:s" }}</span>
+                        
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 rounded-lg bg-green-500/20 flex items-center justify-center mr-4">
+                                    <i data-feather="clock" class="text-green-400"></i>
+                                </div>
+                                <div>
+                                    <p class="text-gray-400 text-sm">Uptime</p>
+                                    <p class="text-white font-medium">99.9%</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-gray-400 text-sm">Started</p>
+                                <p class="text-white font-medium">{{ timestamp|date:"Y-m-d H:i" }}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
                 
-                <div class="bg-gray-800 p-6 rounded-xl">
-                    <h3 class="text-lg font-semibold text-white mb-4">System Metrics</h3>
-                    <div class="space-y-3">
+                <!-- System Metrics -->
+                <div class="bg-gray-900/50 p-6 rounded-2xl">
+                    <h3 class="text-xl font-semibold text-white mb-6 flex items-center">
+                        <i data-feather="bar-chart-2" class="mr-3"></i>
+                        System Metrics
+                    </h3>
+                    
+                    <div class="space-y-6">
+                        <!-- CPU Usage -->
                         <div>
-                            <div class="flex justify-between mb-1">
-                                <span class="text-gray-400">CPU Usage</span>
-                                <span class="text-white font-medium">24%</span>
+                            <div class="flex justify-between mb-2">
+                                <div class="flex items-center">
+                                    <i data-feather="cpu" class="w-4 h-4 mr-2 text-blue-400"></i>
+                                    <span class="text-gray-300">CPU Usage</span>
+                                </div>
+                                <span class="text-white font-semibold">{{ metrics.cpu }}%</span>
                             </div>
-                            <div class="w-full bg-gray-700 rounded-full h-2">
-                                <div class="bg-green-500 h-2 rounded-full" style="width: 24%"></div>
+                            <div class="w-full bg-gray-800 rounded-full h-3">
+                                <div class="bg-gradient-to-r from-blue-500 to-cyan-500 h-3 rounded-full transition-all duration-500" 
+                                     style="width: {{ metrics.cpu }}%"></div>
                             </div>
                         </div>
+                        
+                        <!-- Memory Usage -->
                         <div>
-                            <div class="flex justify-between mb-1">
-                                <span class="text-gray-400">Memory</span>
-                                <span class="text-white font-medium">68%</span>
+                            <div class="flex justify-between mb-2">
+                                <div class="flex items-center">
+                                    <i data-feather="hard-drive" class="w-4 h-4 mr-2 text-purple-400"></i>
+                                    <span class="text-gray-300">Memory Usage</span>
+                                </div>
+                                <span class="text-white font-semibold">{{ metrics.memory }}%</span>
                             </div>
-                            <div class="w-full bg-gray-700 rounded-full h-2">
-                                <div class="bg-blue-500 h-2 rounded-full" style="width: 68%"></div>
+                            <div class="w-full bg-gray-800 rounded-full h-3">
+                                <div class="bg-gradient-to-r from-purple-500 to-pink-500 h-3 rounded-full transition-all duration-500" 
+                                     style="width: {{ metrics.memory }}%"></div>
                             </div>
                         </div>
+                        
+                        <!-- Disk Usage -->
                         <div>
-                            <div class="flex justify-between mb-1">
-                                <span class="text-gray-400">Disk</span>
-                                <span class="text-white font-medium">42%</span>
+                            <div class="flex justify-between mb-2">
+                                <div class="flex items-center">
+                                    <i data-feather="database" class="w-4 h-4 mr-2 text-green-400"></i>
+                                    <span class="text-gray-300">Disk Usage</span>
+                                </div>
+                                <span class="text-white font-semibold">{{ metrics.disk }}%</span>
                             </div>
-                            <div class="w-full bg-gray-700 rounded-full h-2">
-                                <div class="bg-purple-500 h-2 rounded-full" style="width: 42%"></div>
+                            <div class="w-full bg-gray-800 rounded-full h-3">
+                                <div class="bg-gradient-to-r from-green-500 to-emerald-500 h-3 rounded-full transition-all duration-500" 
+                                     style="width: {{ metrics.disk }}%"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Response Time -->
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <div class="flex items-center">
+                                    <i data-feather="activity" class="w-4 h-4 mr-2 text-yellow-400"></i>
+                                    <span class="text-gray-300">Response Time</span>
+                                </div>
+                                <span class="text-white font-semibold">{{ metrics.response_time }}ms</span>
+                            </div>
+                            <div class="w-full bg-gray-800 rounded-full h-3">
+                                <div class="bg-gradient-to-r from-yellow-500 to-orange-500 h-3 rounded-full transition-all duration-500" 
+                                     style="width: 90%"></div>
                             </div>
                         </div>
                     </div>
@@ -76,25 +152,61 @@
             </div>
         </div>
 
-        <!-- JSON Response Preview -->
+        <!-- JSON Response -->
         <div class="glass-card rounded-2xl p-8">
-            <h3 class="text-xl font-bold text-white mb-4">Raw Health Response</h3>
+            <h3 class="text-xl font-bold text-white mb-6 flex items-center">
+                <i data-feather="code" class="mr-3"></i>
+                API Response Format
+            </h3>
+            
             <div class="bg-gray-900 rounded-xl p-6">
-                <pre class="text-green-400 text-sm overflow-x-auto">
-{
+                <div class="flex justify-between items-center mb-4">
+                    <span class="text-gray-300 font-mono text-sm">GET /health/</span>
+                    <button onclick="copyJSON()" 
+                            class="text-sm bg-gray-800 text-gray-300 px-4 py-2 rounded-lg hover:bg-gray-700 transition flex items-center">
+                        <i data-feather="copy" class="w-4 h-4 mr-2"></i>
+                        Copy JSON
+                    </button>
+                </div>
+                
+                <pre class="text-green-400 text-sm overflow-x-auto" id="json-response">{
   "status": "{{ status }}",
   "service": "simple-django-app",
+  "version": "{{ app_version }}",
   "timestamp": "{{ timestamp|date:'c' }}",
-  "version": "2.0.0",
+  "uptime": "99.9%",
   "metrics": {
-    "cpu_usage": "24%",
-    "memory_usage": "68%",
-    "disk_usage": "42%",
-    "response_time": "125ms"
-  }
+    "cpu_usage": "{{ metrics.cpu }}%",
+    "memory_usage": "{{ metrics.memory }}%",
+    "disk_usage": "{{ metrics.disk }}%",
+    "response_time": "{{ metrics.response_time }}ms"
+  },
+  "environment": "{% if is_debug %}development{% else %}production{% endif %}"
 }</pre>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+function copyJSON() {
+    const jsonText = document.getElementById('json-response').textContent;
+    navigator.clipboard.writeText(jsonText).then(() => {
+        const button = event.target.closest('button');
+        const originalText = button.innerHTML;
+        button.innerHTML = '<i data-feather="check" class="w-4 h-4 mr-2"></i>Copied!';
+        feather.replace();
+        
+        setTimeout(() => {
+            button.innerHTML = originalText;
+            feather.replace();
+        }, 2000);
+    });
+}
+
+// Auto-refresh health metrics every 30 seconds
+setTimeout(() => {
+    window.location.reload();
+}, 30000);
+</script>
 {% endblock %}
