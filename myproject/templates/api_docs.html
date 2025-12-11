@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-6 py-12">
+    <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">
+                API <span class="gradient-text">Documentation</span>
+            </h1>
+            <p class="text-gray-200 text-xl">Complete API reference and examples</p>
+        </div>
+
+        <!-- API Endpoints -->
+        <div class="glass-card rounded-2xl p-8 mb-8">
+            <h2 class="text-2xl font-bold text-white mb-6">Available Endpoints</h2>
+            <div class="space-y-4">
+                {% for endpoint in endpoints %}
+                <div class="bg-gray-800 rounded-xl p-6 hover:bg-gray-700 transition">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="flex items-center">
+                            <span class="{% if endpoint.method == 'GET' %}bg-green-500{% elif endpoint.method == 'POST' %}bg-blue-500{% elif endpoint.method == 'PUT' %}bg-yellow-500{% else %}bg-red-500{% endif %} text-white px-3 py-1 rounded-lg text-sm font-semibold mr-4">
+                                {{ endpoint.method }}
+                            </span>
+                            <code class="text-lg font-mono text-white">{{ endpoint.path }}</code>
+                        </div>
+                        <span class="text-gray-400">HTTP</span>
+                    </div>
+                    <p class="text-gray-300 mt-2">{{ endpoint.description }}</p>
+                    <div class="mt-4">
+                        <button onclick="copyExample('{{ endpoint.path }}')" 
+                                class="text-sm bg-gray-700 text-gray-300 px-4 py-2 rounded-lg hover:bg-gray-600 transition">
+                            <i data-feather="copy" class="inline w-4 h-4 mr-2"></i>
+                            Copy Example
+                        </button>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Example Usage -->
+        <div class="glass-card rounded-2xl p-8">
+            <h2 class="text-2xl font-bold text-white mb-6">Example Usage</h2>
+            
+            <div class="mb-8">
+                <h3 class="text-xl font-semibold text-white mb-4">Health Check (cURL)</h3>
+                <div class="bg-gray-900 rounded-xl p-6">
+                    <pre class="text-green-400 text-sm overflow-x-auto">
+curl -X GET https://yourdomain.com/health/ \
+  -H "Accept: application/json" \
+  -H "Content-Type: application/json"</pre>
+                </div>
+            </div>
+            
+

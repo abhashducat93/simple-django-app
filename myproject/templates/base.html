@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Simple Django App{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --accent: #f72585;
+            --light: #f8f9fa;
+            --dark: #212529;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(45deg, #f72585, #4361ee);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+        
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <nav class="glass-card fixed w-full z-50">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <a href="{% url 'home' %}" class="text-2xl font-bold gradient-text flex items-center">
+                    <i data-feather="box" class="mr-2"></i>
+                    DjangoApp
+                </a>
+                <div class="hidden md:flex space-x-6">
+                    <a href="{% url 'home' %}" class="text-white hover:text-accent transition">Home</a>
+                    <a href="{% url 'dashboard' %}" class="text-white hover:text-accent transition">Dashboard</a>
+                    <a href="{% url 'health' %}" class="text-white hover:text-accent transition">Health</a>
+                    <a href="{% url 'api_docs' %}" class="text-white hover:text-accent transition">API Docs</a>
+                    <a href="{% url 'admin:index' %}" class="bg-white text-primary px-4 py-2 rounded-lg hover:bg-gray-100 transition">Admin</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-20">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="glass-card mt-12 py-6">
+        <div class="container mx-auto px-6 text-center text-white">
+            <p>© 2024 Simple Django App | Built with Django & Tailwind CSS</p>
+            <p class="text-sm mt-2 opacity-75">Uptime: 99.9% | Version: 2.0.0</p>
+        </div>
+    </footer>
+
+    <script>
+        feather.replace();
+        
+        // Floating animation for cards
+        document.querySelectorAll('.floating').forEach((card, index) => {
+            card.style.animationDelay = `${index * 0.2}s`;
+        });
+        
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>

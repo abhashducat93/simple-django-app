@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-6 py-12">
+    <div class="flex justify-between items-center mb-8">
+        <h1 class="text-4xl font-bold text-white">
+            <i data-feather="activity" class="inline mr-3"></i>
+            System Dashboard
+        </h1>
+        <div class="flex items-center space-x-4">
+            <span class="text-green-400 flex items-center">
+                <i data-feather="circle" class="w-3 h-3 mr-2"></i>
+                Live
+            </span>
+            <span class="text-gray-400">{{ current_time|date:"Y-m-d H:i:s" }}</span>
+        </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div class="glass-card p-6 rounded-2xl hover:transform hover:-translate-y-1 transition">
+            <div class="flex items-center">
+                <div class="w-12 h-12 bg-gradient-to-r from-green-400 to-blue-500 rounded-xl flex items-center justify-center mr-4">
+                    <i data-feather="server" class="text-white text-xl"></i>
+                </div>
+                <div>
+                    <p class="text-gray-400 text-sm">Uptime</p>
+                    <p class="text-2xl font-bold text-white">{{ stats.uptime }}</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="glass-card p-6 rounded-2xl hover:transform hover:-translate-y-1 transition">
+            <div class="flex items-center">
+                <div class="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl flex items-center justify-center mr-4">
+                    <i data-feather="download" class="text-white text-xl"></i>
+                </div>
+                <div>
+                    <p class="text-gray-400 text-sm">Total Requests</p>
+                    <p class="text-2xl font-bold text-white">{{ stats.requests }}</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="glass-card p-6 rounded-2xl hover:transform hover:-translate-y-1 transition">
+            <div class="flex items-center">
+                <div class="w-12 h-12 bg-gradient-to-r from-yellow-400 to-red-500 rounded-xl flex items-center justify-center mr-4">
+                    <i data-feather="users" class="text-white text-xl"></i>
+                </div>
+                <div>
+                    <p class="text-gray-400 text-sm">Active Users</p>
+                    <p class="text-2xl font-bold text-white">{{ stats.users }}</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="glass-card p-6 rounded-2xl hover:transform hover:-translate-y-1 transition">
+            <div class="flex items-center">
+                <div class="w-12 h-12 bg-gradient-to-r from-blue-400 to-cyan-500 rounded-xl flex items-center justify-center mr-4">
+                    <i data-feather="clock" class="text-white text-xl"></i>
+                </div>
+                <div>
+                    <p class="text-gray-400 text-sm">Avg Response</p>
+                    <p class="text-2xl font-bold text-white">{{ stats.response_time }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts and Graphs -->
+    <div class="grid lg:grid-cols-2 gap-8">
+        <div class="glass-card rounded-2xl p-6">
+            <h3 class="text-xl font-bold text-white mb-6">Traffic Overview</h3>
+            <div class="space-y-4">
+                {% for i in "12345" %}
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <div class="w-8 h-8 rounded-full {% cycle 'bg-blue-500' 'bg-green-500' 'bg-yellow-500' 'bg-red-500' 'bg-purple-500' %} flex items-center justify-center mr-3">
+                            <span class="text-white text-sm font-bold">{{ forloop.counter }}</span>
+                        </div>
+                        <span class="text-gray-300">{% cycle 'API Endpoint' 'Static Files' 'Admin Panel' 'Health Checks' 'Dashboard' %}</span>
+                    </div>
+                    <span class="text-white font-semibold">{% cycle '42%' '23%' '15%' '12%' '8%' %}</span>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        
+        <div class="glass-card rounded-2xl p-6">
+            <h3 class="text-xl font-bold text-white mb-6">Quick Actions</h3>
+            <div class="grid grid-cols-2 gap-4">
+                <a href="{% url 'health' %}" class="bg-gradient-to-r from-green-500 to-teal-500 p-4 rounded-xl flex flex-col items-center justify-center hover:shadow-xl transition">
+                    <i data-feather="heart" class="text-white text-2xl mb-2"></i>
+                    <span class="text-white font-semibold">Health Check</span>
+                </a>
+                <a href="{% url 'api_docs' %}" class="bg-gradient-to-r from-blue-500 to-indigo-500 p-4 rounded-xl flex flex-col items-center justify-center hover:shadow-xl transition">
+                    <i data-feather="code" class="text-white text-2xl mb-2"></i>
+                    <span class="text-white font-semibold">API Docs</span>
+                </a>
+                <a href="{% url 'admin:index' %}" class="bg-gradient-to-r from-purple-500 to-pink-500 p-4 rounded-xl flex flex-col items-center justify-center hover:shadow-xl transition">
+                    <i data-feather="settings" class="text-white text-2xl mb-2"></i>
+                    <span class="text-white font-semibold">Admin Panel</span>
+                </a>
+                <a href="/" class="bg-gradient-to-r from-yellow-500 to-orange-500 p-4 rounded-xl flex flex-col items-center justify-center hover:shadow-xl transition">
+                    <i data-feather="home" class="text-white text-2xl mb-2"></i>
+                    <span class="text-white font-semibold">Home</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block title %}Health Status{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-6 py-12">
+    <div class="max-w-4xl mx-auto">
+        <div class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">
+                Health <span class="gradient-text">Monitoring</span>
+            </h1>
+            <p class="text-gray-200 text-xl">Real-time system health and performance metrics</p>
+        </div>
+
+        <!-- Health Status Card -->
+        <div class="glass-card rounded-2xl p-8 mb-8">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-2xl font-bold text-white">Service Status</h2>
+                <div class="flex items-center">
+                    <div class="w-3 h-3 bg-green-500 rounded-full mr-2 pulse"></div>
+                    <span class="text-green-400 font-semibold">{{ status|upper }}</span>
+                </div>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-lg font-semibold text-white mb-4">Service Information</h3>
+                    <div class="space-y-3">
+                        <div class="flex justify-between">
+                            <span class="text-gray-400">Service Name</span>
+                            <span class="text-white font-medium">simple-django-app</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-400">Version</span>
+                            <span class="text-white font-medium">2.0.0</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-400">Last Check</span>
+                            <span class="text-white font-medium">{{ timestamp|date:"Y-m-d H:i:s" }}</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-lg font-semibold text-white mb-4">System Metrics</h3>
+                    <div class="space-y-3">
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-gray-400">CPU Usage</span>
+                                <span class="text-white font-medium">24%</span>
+                            </div>
+                            <div class="w-full bg-gray-700 rounded-full h-2">
+                                <div class="bg-green-500 h-2 rounded-full" style="width: 24%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-gray-400">Memory</span>
+                                <span class="text-white font-medium">68%</span>
+                            </div>
+                            <div class="w-full bg-gray-700 rounded-full h-2">
+                                <div class="bg-blue-500 h-2 rounded-full" style="width: 68%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-gray-400">Disk</span>
+                                <span class="text-white font-medium">42%</span>
+                            </div>
+                            <div class="w-full bg-gray-700 rounded-full h-2">
+                                <div class="bg-purple-500 h-2 rounded-full" style="width: 42%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- JSON Response Preview -->
+        <div class="glass-card rounded-2xl p-8">
+            <h3 class="text-xl font-bold text-white mb-4">Raw Health Response</h3>
+            <div class="bg-gray-900 rounded-xl p-6">
+                <pre class="text-green-400 text-sm overflow-x-auto">
+{
+  "status": "{{ status }}",
+  "service": "simple-django-app",
+  "timestamp": "{{ timestamp|date:'c' }}",
+  "version": "2.0.0",
+  "metrics": {
+    "cpu_usage": "24%",
+    "memory_usage": "68%",
+    "disk_usage": "42%",
+    "response_time": "125ms"
+  }
+}</pre>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
